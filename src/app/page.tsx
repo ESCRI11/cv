@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CommandMenu } from "@/components/command-menu";
 import { Metadata } from "next";
 import { Section } from "@/components/ui/section";
 import { GlobeIcon, MailIcon, PhoneIcon } from "lucide-react";
@@ -152,8 +151,16 @@ export default function Page() {
                       {education.start} - {education.end}
                     </div>
                   </div>
+                  <h4 className="font-mono text-sm leading-none">
+                    {education.degree}
+                  </h4>
+                  {education.grade.length !== 0 && (
+                    <h4 className="font-mono text-sm leading-none">
+                      Grade: {education.grade} / 10
+                    </h4>
+                  )}
                 </CardHeader>
-                <CardContent className="mt-2">{education.degree}</CardContent>
+                <CardContent className="mt-2">{education.description}</CardContent>
               </Card>
             );
           })}
@@ -165,6 +172,144 @@ export default function Page() {
               return <Badge key={skill}>{skill}</Badge>;
             })}
           </div>
+        </Section>
+
+        <Section>
+          <h2 className="text-xl font-bold">Posters</h2>
+          {RESUME_DATA.posters.map((poster) => {
+            return(
+              <Card key={poster.title}>
+                <CardHeader>
+                    <div className="flex items-center justify-between gap-x-2 text-base">
+                      <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                        <a className="hover:underline" href={poster.link}>
+                          {poster.title}
+                        </a>
+                      </h3>
+                      <div className="text-sm tabular-nums text-gray-500">
+                        {poster.date}
+                      </div>
+                    </div>
+
+                    <h4 className="font-mono text-sm leading-none">
+                      {poster.authors}
+                    </h4>
+                  </CardHeader>
+                  <CardContent className="mt-2 text-xs">
+                    {poster.location}
+                  </CardContent>
+              </Card>
+            );
+          })}
+        </Section>
+
+        <Section>
+          <h2 className="text-xl font-bold">Papers</h2>
+          {RESUME_DATA.papers.map((paper) => {
+            return(
+              <Card key={paper.title}>
+                <CardHeader>
+                    <div className="flex items-center justify-between gap-x-2 text-base">
+                      <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                        <a className="hover:underline" href={paper.link}>
+                          {paper.title}
+                        </a>
+                      </h3>
+                      <div className="text-sm tabular-nums text-gray-500">
+                        {paper.date}
+                      </div>
+                    </div>
+
+                    <h4 className="font-mono text-sm leading-none">
+                      {paper.authors}
+                    </h4>
+                  </CardHeader>
+                  <CardContent className="mt-2 text-xs">
+                    {paper.journal}
+                  </CardContent>
+              </Card>
+            );
+          })}
+        </Section>
+
+        <Section>
+          <h2 className="text-xl font-bold">Talks</h2>
+          {RESUME_DATA.talks.map((talk) => {
+            return(
+              <Card key={talk.title}>
+                <CardHeader>
+                    <div className="flex items-center justify-between gap-x-2 text-base">
+                      <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                        <a className="hover:underline">
+                          {talk.title}
+                        </a>
+                        <span className="inline-flex gap-x-1">
+                        {talk.badges.map((badge) => (
+                          <Badge
+                            variant="secondary"
+                            className="align-middle text-xs"
+                            key={badge}
+                          >
+                            {badge}
+                          </Badge>
+                        ))}
+                      </span>
+                      </h3>
+                      <div className="text-sm tabular-nums text-gray-500">
+                        {talk.date}
+                      </div>
+                    </div>
+
+                    <h4 className="font-mono text-sm leading-none">
+                      {talk.location}
+                    </h4>
+                  </CardHeader>
+                  <CardContent className="mt-2 text-xs">
+                    {talk.details}
+                  </CardContent>
+              </Card>
+            );
+          })}
+        </Section>
+
+        <Section>
+          <h2 className="text-xl font-bold">Workshops</h2>
+          {RESUME_DATA.workshops.map((workshop) => {
+            return(
+              <Card key={workshop.title}>
+                <CardHeader>
+                    <div className="flex items-center justify-between gap-x-2 text-base">
+                      <h3 className="inline-flex items-center justify-center gap-x-1 font-semibold leading-none">
+                        <a className="hover:underline">
+                          {workshop.title}
+                        </a>
+                        <span className="inline-flex gap-x-1">
+                        {workshop.badges.map((badge) => (
+                          <Badge
+                            variant="secondary"
+                            className="align-middle text-xs"
+                            key={badge}
+                          >
+                            {badge}
+                          </Badge>
+                        ))}
+                      </span>
+                      </h3>
+                      <div className="text-sm tabular-nums text-gray-500">
+                        {workshop.date}
+                      </div>
+                    </div>
+
+                    <h4 className="font-mono text-sm leading-none">
+                      {workshop.location}
+                    </h4>
+                  </CardHeader>
+                  <CardContent className="mt-2 text-xs">
+                    {workshop.details}
+                  </CardContent>
+              </Card>
+            );
+          })}
         </Section>
 
         <Section className="print-force-new-page scroll-mb-16">
@@ -184,19 +329,6 @@ export default function Page() {
           </div>
         </Section>
       </section>
-
-      <CommandMenu
-        links={[
-          {
-            url: RESUME_DATA.personalWebsiteUrl,
-            title: "Personal Website",
-          },
-          ...RESUME_DATA.contact.social.map((socialMediaLink) => ({
-            url: socialMediaLink.url,
-            title: socialMediaLink.name,
-          })),
-        ]}
-      />
     </main>
   );
 }
